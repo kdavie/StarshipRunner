@@ -28,7 +28,7 @@ public class WorldRenderer {
     SpriteBatcher batcher;    
     Random rand;
     float[][] stars;
-    
+    AstroidPool astroidPool = new AstroidPool();
     
     
     float nextTransition = FRUSTUM_WIDTH/2;
@@ -42,14 +42,14 @@ public class WorldRenderer {
         this.batcher = batcher;       
         this.rand = new Random();
         this.stars = new float[3][];
-        world.astroids = new Astroid[3][];
+        //world.astroids = new Astroid[3][];
         world.coins = new Coin[3][];
         this.calculateStars(0);
-        this.calculateAstroids(0);
+        //this.calculateAstroids(0);
         this.calculateCoins(0);
         currentScreen++;
         this.calculateStars(1);        
-        this.calculateAstroids(1);
+        //this.calculateAstroids(1);
         this.calculateCoins(1);
         currentScreen++;
     }
@@ -158,9 +158,10 @@ public class WorldRenderer {
     		
     		if(transition % 2 == 0){
     			calculateStars(2);
-    			calculateAstroids(2);
+    			//calculateAstroids(2);
     			calculateCoins(2);
     			currentScreen++;
+    			astroidPool.calculatePlacement();
     		}
     		else {
     			if(transition > 1){
@@ -168,13 +169,15 @@ public class WorldRenderer {
 	   			    stars[1] = stars[2];
 	   			    stars[2] = null;
 	   			    
-	   			    world.astroids[0] = world.astroids[1];
-	   			    world.astroids[1] = world.astroids[2];
-	   			    world.astroids[2] = null;
+//	   			    world.astroids[0] = world.astroids[1];
+//	   			    world.astroids[1] = world.astroids[2];
+//	   			    world.astroids[2] = null;
 	   			    
 	   			    world.coins[0] = world.coins[1];
 	   			    world.coins[1] = world.coins[2];
 	   			    world.coins[2] = null;
+	   			    
+	   			    astroidPool.swapBuffer();
     			}
     		}	
     	}
@@ -190,27 +193,31 @@ public class WorldRenderer {
     	}
     	TextureRegion keyframe;
     	Astroid astroid;
-    	for(int j = 0; j < 2; j++){
-	    	max = world.astroids[j].length;
-	    	
-	    	for(int i = 0; i < max; i++)
-	    	{
-	    		astroid = world.astroids[j][i];
-	    		if(astroid != null){
-	    			if(astroid.state == Astroid.STATE_EXPLODING){
-	    				  				 
-	    				keyframe = Assets.astroidExplodingAnimation.getKeyFrame(astroid.stateTime, Animation.ANIMATION_LOOPING);
-	    				batcher.drawSprite(astroid.position.x, astroid.position.y, Astroid.WIDTH, Astroid.HEIGHT, keyframe);
-	            		if(keyframe.equals(Assets.astroidExplodingAnimation.getKeyFrame(Assets.astroidExplodingAnimation.frameCount-1, Animation.ANIMATION_LOOPING))){
-	            			world.astroids[j][i] =  null;
-	            		}
-	    			} else {
-	    				batcher.drawSprite(astroid.position.x, astroid.position.y, Astroid.WIDTH, Astroid.HEIGHT, Assets.astroids[astroid.textureId]);
-	    			}
-	    		}
-	    	}
-    	}
+//    	for(int j = 0; j < 2; j++){
+//	    	max = world.astroids[j].length;
+//	    	
+//	    	for(int i = 0; i < max; i++)
+//	    	{
+//	    		astroid = world.astroids[j][i];
+//	    		if(astroid != null){
+//	    			if(astroid.state == Astroid.STATE_EXPLODING){
+//	    				  				 
+//	    				keyframe = Assets.astroidExplodingAnimation.getKeyFrame(astroid.stateTime, Animation.ANIMATION_LOOPING);
+//	    				batcher.drawSprite(astroid.position.x, astroid.position.y, Astroid.WIDTH, Astroid.HEIGHT, keyframe);
+//	            		if(keyframe.equals(Assets.astroidExplodingAnimation.getKeyFrame(Assets.astroidExplodingAnimation.frameCount-1, Animation.ANIMATION_LOOPING))){
+//	            			world.astroids[j][i] =  null;
+//	            		}
+//	    			} else {
+//	    				batcher.drawSprite(astroid.position.x, astroid.position.y, Astroid.WIDTH, Astroid.HEIGHT, Assets.astroids[astroid.textureId]);
+//	    			}
+//	    		}
+//	    	}
+//    	}
     	
+    	for(int j = 0; j < astroidPool.pool.objects.size();j++){
+    		astroid = astroidPool.pool.objects.get(j);
+    		batcher.drawSprite(astroid.position.x, astroid.position.y, Astroid.WIDTH, Astroid.HEIGHT, Assets.astroids[astroid.textureId]);
+    	}
     	
     	for(int j = 0; j < 2; j++){
 	    	max = world.coins[j].length;

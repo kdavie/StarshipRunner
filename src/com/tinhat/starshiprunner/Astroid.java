@@ -23,6 +23,11 @@ public class Astroid extends DynamicGameObject {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public void setPosition(float x, float y){
+		position.set(x,y);
+		bounds.lowerLeft.set(position);
+	}
+	
 	public void update(float deltaTime) {
         stateTime += deltaTime;
     }

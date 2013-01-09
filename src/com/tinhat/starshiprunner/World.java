@@ -2,6 +2,7 @@ package com.tinhat.starshiprunner;
 
 import java.util.ArrayList;
 
+import com.tinhat.android.Pool.PoolObjectFactory;
 import com.tinhat.android.math.CollisionTester;
 import com.tinhat.android.math.Vector2;
 
@@ -20,6 +21,7 @@ public class World {
 	public static final int WORLD_STATE_RUNNING = 0;
 	public static final int WORLD_STATE_NEXT_LEVEL = 1;
 	public static final int WORLD_STATE_GAME_OVER = 2;
+	
 	public static final Vector2 gravity = new Vector2(0, -12);
 	
 	public final Spaceship spaceship;
@@ -28,20 +30,24 @@ public class World {
 	int state;
 	public Astroid[][] astroids;
 	public Coin[][] coins;
+	 
+
 	
 	public int collectedCoins;
 	
 	public World(WorldListener worldListener){ 
-		this.spaceship = new Spaceship(WORLD_HALF_WIDTH,WORLD_HALF_HEIGHT); 
-	 
+		this.spaceship = new Spaceship(WORLD_HALF_WIDTH,WORLD_HALF_HEIGHT);
 		this.listener = worldListener;
+		 
 	}
+	
+ 
 	
 	public void update(float deltaTime, float accelY) {
 		 
 		updateSpaceship(deltaTime, accelY);
 	    updateCoins(deltaTime);
-	    updateAstroids(deltaTime);
+	    //updateAstroids(deltaTime);
 		if(spaceship.state != Spaceship.SPACESHIP_STATE_CRASHING) {
 			checkCollisions();
 		}
@@ -49,7 +55,7 @@ public class World {
 	} 
 	
 	public void checkCollisions() {
-		checkAstroidCollisions();
+		//checkAstroidCollisions();
 		checkCoinCollisions();
 	}
 	
