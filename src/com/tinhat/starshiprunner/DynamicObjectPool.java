@@ -15,6 +15,7 @@ public class DynamicObjectPool<T>  {
 	private float minX, maxX, posX, posY;
 	private Random rand = new Random();
 	private T object;
+	private IDynamicObject dynamicObject;
 	
 	public DynamicObjectPool(int min, int max, int availableTextures, PoolObjectFactory<T> factory){
 		int i;
@@ -22,7 +23,7 @@ public class DynamicObjectPool<T>  {
 		minObjects = min;
 		maxObjects = max;
 		textures  = availableTextures;
-		pool = new PooledBufferedList<T>(factory, maxObjects*3);		
+		pool = new PooledBufferedList<T>(factory, 100);		
 		
 		for(i=0;i<SCREEN_LIMIT;i++){
 			calculatePlacement();
@@ -34,7 +35,7 @@ public class DynamicObjectPool<T>  {
 		int i;
 		
     	count = rand.nextInt(maxObjects - minObjects + 1) + minObjects;
-    	minX = index == 0 ? World.WORLD_HALF_WIDTH : (int)World.WORLD_WIDTH*screen;
+    	minX = (int)World.WORLD_WIDTH*screen;
     	maxX = minX + (int)World.WORLD_WIDTH;
     	
     	if(index == 0){
@@ -42,12 +43,19 @@ public class DynamicObjectPool<T>  {
     	}
     	
     	for(i = 0; i < count; i++){
+    		object = pool.newObject();
+    		dynamicObject = (IDynamicObject)object;
+    		
+    		if(index == 0 && dynamicObject.isCollidable()){
+    			minX = World.WORLD_HALF_WIDTH;
+    		}
+    		
     		posX = rand.nextFloat() * (maxX - minX) + minX; 
     		posY = rand.nextFloat() * World.WORLD_HEIGHT;
     		textureIndex = textures > 1 ? rand.nextInt(textures) : 0;
-    		object = pool.newObject();
-    		((IDynamicObject)object).setPosition(posX,posY);
-    		((IDynamicObject)object).setTextureIndex(textureIndex); 
+    		
+    		dynamicObject.setPosition(posX,posY);
+    		dynamicObject.setTextureIndex(textureIndex); 
     		
     		if(index < SCREEN_LIMIT){
     			pool.objects.add(object);
@@ -58,11 +66,15 @@ public class DynamicObjectPool<T>  {
     	screen++;
 	}
 	
-	 
+	public int size(){
+		return pool.objects.size();
+	}
+	
 	public interface IDynamicObject {
 		void setPosition(float x, float y);
 		void setTextureIndex(int index);
 		int getTextureIndex();
+		boolean isCollidable();
 	}
 	
 	

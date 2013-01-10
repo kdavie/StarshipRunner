@@ -45,5 +45,11 @@ public class PooledBufferedList<T> extends Pool<T> {
 		buffer.clear();
 		
 	}
+	
+	public void decrementFirstEndOrdnial(int index){
+		if(index - 1 < firstEndOrdinal){
+			firstEndOrdinal--;
+		}
+	}
 
 }

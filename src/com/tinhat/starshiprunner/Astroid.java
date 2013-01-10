@@ -14,10 +14,11 @@ public class Astroid extends DynamicGameObject implements IDynamicObject{
 	public static final float HALF_WIDTH = Astroid.HEIGHT /2;
 	
 	float stateTime;
-	
-    public int textureIndex;
+    int textureIndex;
+    
 	public int state;
 	public int frame;
+	public boolean destroyed;
 	
 	public Astroid(){
 		super(0,0,WIDTH,HEIGHT);
@@ -46,6 +47,11 @@ public class Astroid extends DynamicGameObject implements IDynamicObject{
 	@Override
 	public int getTextureIndex() {
 		return textureIndex;
+	}
+
+	@Override
+	public boolean isCollidable() {
+		return true;
 	}
 
 	
