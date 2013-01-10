@@ -11,6 +11,8 @@ import com.tinhat.android.Camera2D;
 import com.tinhat.android.GLGraphics;
 import com.tinhat.android.SpriteBatcher;
 import com.tinhat.android.TextureRegion;
+import com.tinhat.android.Pool.PoolObjectFactory;
+import com.tinhat.framework.Input.KeyEvent;
  
 public class WorldRenderer {
     static final float FRUSTUM_WIDTH = 15;
@@ -28,7 +30,7 @@ public class WorldRenderer {
     SpriteBatcher batcher;    
     Random rand;
     float[][] stars;
-    AstroidPool astroidPool = new AstroidPool();
+    DynamicObjectPool<Astroid> astroidPool;
     
     
     float nextTransition = FRUSTUM_WIDTH/2;
@@ -42,6 +44,7 @@ public class WorldRenderer {
         this.batcher = batcher;       
         this.rand = new Random();
         this.stars = new float[3][];
+        initializeObjectPools();
         //world.astroids = new Astroid[3][];
         world.coins = new Coin[3][];
         this.calculateStars(0);
@@ -52,6 +55,17 @@ public class WorldRenderer {
         //this.calculateAstroids(1);
         this.calculateCoins(1);
         currentScreen++;
+    }
+    
+    public void initializeObjectPools(){
+    	PoolObjectFactory<Astroid> astroidPoolFactory = new PoolObjectFactory<Astroid>() {
+			@Override
+			public Astroid createObject() {
+				return new Astroid();
+			}
+		};
+		
+		astroidPool = new DynamicObjectPool<Astroid>(MIN_COMETS,MAX_COMETS,4,astroidPoolFactory);
     }
     
     public void render() {
@@ -122,7 +136,7 @@ public class WorldRenderer {
     		y = rand.nextFloat() * FRUSTUM_HEIGHT;
     		//y = world.spaceship.position.y -.25f; //align with ship for testing
     		astroid = new Astroid(x,y);
-    		astroid.textureId = 0; //rand.nextInt(3);
+    		astroid.setTextureIndex(0); //rand.nextInt(3);
     		world.astroids[index][i] = astroid; 
     	}
     }
@@ -177,7 +191,7 @@ public class WorldRenderer {
 	   			    world.coins[1] = world.coins[2];
 	   			    world.coins[2] = null;
 	   			    
-	   			    astroidPool.swapBuffer();
+	   			    astroidPool.pool.swapBuffer();
     			}
     		}	
     	}
@@ -216,7 +230,7 @@ public class WorldRenderer {
     	
     	for(int j = 0; j < astroidPool.pool.objects.size();j++){
     		astroid = astroidPool.pool.objects.get(j);
-    		batcher.drawSprite(astroid.position.x, astroid.position.y, Astroid.WIDTH, Astroid.HEIGHT, Assets.astroids[astroid.textureId]);
+    		batcher.drawSprite(astroid.position.x, astroid.position.y, Astroid.WIDTH, Astroid.HEIGHT, Assets.astroids[astroid.getTextureIndex()]);
     	}
     	
     	for(int j = 0; j < 2; j++){

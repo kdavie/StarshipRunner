@@ -1,9 +1,10 @@
 package com.tinhat.starshiprunner;
 
 import com.tinhat.android.DynamicGameObject;
+import com.tinhat.starshiprunner.DynamicObjectPool.IDynamicObject;
  
 
-public class Astroid extends DynamicGameObject {
+public class Astroid extends DynamicGameObject implements IDynamicObject{
 	
 	public static final int STATE_NORMAL = 0;
 	public static final int STATE_EXPLODING = 1;
@@ -13,24 +14,39 @@ public class Astroid extends DynamicGameObject {
 	public static final float HALF_WIDTH = Astroid.HEIGHT /2;
 	
 	float stateTime;
-	public int textureId;
+	
+    public int textureIndex;
 	public int state;
 	public int frame;
 	
-	public Astroid(float x, float y) {
-		super(x, y, WIDTH, HEIGHT);
-		bounds.lowerLeft.set(position);
-		// TODO Auto-generated constructor stub
+	public Astroid(){
+		super(0,0,WIDTH,HEIGHT);
 	}
 	
-	public void setPosition(float x, float y){
-		position.set(x,y);
+	public Astroid(float x, float y) {
+		super(x, y, WIDTH, HEIGHT);
 		bounds.lowerLeft.set(position);
 	}
 	
 	public void update(float deltaTime) {
         stateTime += deltaTime;
     }
+	
+	@Override
+	public void setPosition(float x, float y){
+		position.set(x,y);
+		bounds.lowerLeft.set(position);
+	}
+
+	@Override
+	public void setTextureIndex(int index) {
+		textureIndex = index;
+	}
+
+	@Override
+	public int getTextureIndex() {
+		return textureIndex;
+	}
 
 	
 }
