@@ -14,10 +14,11 @@ import com.tinhat.android.TextureRegion;
 public class WorldRenderer {
     static final float FRUSTUM_WIDTH = 15;
     static final float FRUSTUM_HEIGHT = 10;    
+    static final float TRANSITION_MODIFIER = World.WORLD_HALF_WIDTH * (DynamicObjectPool.SCREEN_LIMIT-1);
     static final int MIN_STARS = 10;
     static final int MAX_STARS = 25;
     static final int MIN_COMETS = 1;
-    static final int MAX_COMETS = 3;
+    static final int MAX_COMETS = 10;
     static final int MIN_COINS = 0;
     static final int MAX_COINS = 5;
     
@@ -29,12 +30,15 @@ public class WorldRenderer {
  
     float nextTransition = FRUSTUM_WIDTH/2, viewport;
     int transition = 0;
+    boolean buffered;
+    
     TextureRegion keyframe;
 	Astroid astroid;
 	Coin coin;
 	Star star;
 	Ballistic ballistic;
 	Iterator<Ballistic> ballisticIterator;
+	
 	
     public WorldRenderer(GLGraphics glGraphics, SpriteBatcher batcher, World world) {
         this.glGraphics = glGraphics;
@@ -78,19 +82,21 @@ public class WorldRenderer {
     
     private void renderStars() {
     	if(cam.position.x > nextTransition){
-    		nextTransition += FRUSTUM_WIDTH/2;
+    		nextTransition += TRANSITION_MODIFIER; // FRUSTUM_WIDTH/2;
     		transition++;
     		
-    		if(transition % 2 == 0){
+    		if(transition % DynamicObjectPool.SCREEN_LIMIT == 0){
     			world.stars.calculatePlacement();
     			world.astroids.calculatePlacement();
     			world.coins.calculatePlacement();
+    			buffered = true;
     		}
     		else {
-    			if(transition > 1){
+    			if(buffered){
 	    			world.stars.pool.swapBuffer();
 	   			    world.astroids.pool.swapBuffer();
 	   			    world.coins.pool.swapBuffer();
+	   			    buffered = false;
     			}
     		}	
     	}

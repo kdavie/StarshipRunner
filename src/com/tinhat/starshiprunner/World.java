@@ -105,7 +105,7 @@ public class World {
 		
 	    for (i = 0; i < astroids.size(); i++) {
 	        astroid = astroids.pool.objects.get(i);
-	        if(!astroid.destroyed && astroid.state != Astroid.STATE_EXPLODING){
+	        if(astroid.isCollidable() && !astroid.destroyed && astroid.state != Astroid.STATE_EXPLODING){
 		        if (spaceship.position.x + Spaceship.SPACESHIP_HALF_WIDTH >= astroid.position.x - Astroid.HALF_WIDTH ) {
 		            if (CollisionTester.rectangles(spaceship.bounds, astroid.bounds)) {
 		                spaceship.crash();
