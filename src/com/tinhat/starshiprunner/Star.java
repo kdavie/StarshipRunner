@@ -38,4 +38,9 @@ public class Star extends DynamicGameObject implements IDynamicObject {
 	public boolean isCollidable() {
 		return false;
 	}
+	
+	@Override
+	public void reset() {
+		//do nothing
+	}
 }

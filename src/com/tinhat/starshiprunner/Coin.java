@@ -48,4 +48,9 @@ public class Coin extends DynamicGameObject implements IDynamicObject {
 	public boolean isCollidable() {
 		return true;
 	}
+	
+	@Override
+	public void reset() {
+		collected = false;
+	}
 }

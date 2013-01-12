@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+import android.util.Log;
+
 import com.tinhat.framework.FileIO;
 
 public class Settings {
@@ -22,7 +24,8 @@ public class Settings {
 				highscores[i] = Integer.parseInt(stream.readLine());
 			}
 		} catch (IOException ex){
-			//use defaults
+			Log.e("Settings", "IOException - Unable to load settings");
+			Log.e("Settings", ex.getMessage());
 		} catch (NumberFormatException ex){
 			//use defaults
 		} finally {

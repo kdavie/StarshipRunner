@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.tinhat.android.Pool;
+import com.tinhat.starshiprunner.DynamicObjectPool.IDynamicObject;
 
 
 public class PooledBufferedList<T> extends Pool<T> {
@@ -32,6 +33,7 @@ public class PooledBufferedList<T> extends Pool<T> {
 		 
 		while(freeing.hasNext()){
 			object = freeing.next();
+			((IDynamicObject)object).reset();
 			free(object);
 			freeing.remove();
 			i++;

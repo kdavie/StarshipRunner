@@ -74,6 +74,7 @@ public class DynamicObjectPool<T>  {
 	public interface IDynamicObject {
 		void setPosition(float x, float y);
 		void setTextureIndex(int index);
+		void reset();
 		int getTextureIndex();
 		boolean isCollidable();
 	}

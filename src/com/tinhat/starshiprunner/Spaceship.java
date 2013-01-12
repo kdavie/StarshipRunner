@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
  
 
+import android.util.Log;
+
 import com.tinhat.android.DynamicGameObject;
 
  
@@ -41,24 +43,13 @@ public class Spaceship extends DynamicGameObject {
 	
 	 float averageDelta;
 	 int averageCount;
-	 public void update(float deltaTime1) {     
-		 //TODO: get rid of this average here and average deltas in GLGame
-		 //using http://stackoverflow.com/questions/10648325/android-smooth-game-loop
-		 //for guidance.
-		 if(averageCount < 10){
-			 averageCount++;
-			 averageDelta+=deltaTime1;
-		 }
-		 
-		 float deltaTime = averageDelta/averageCount;
-		 
-	 
+	 public void update(float deltaTime) {  
 		 if(state == SPACESHIP_STATE_SPAWNING) { 
 			 if(position.x > World.WORLD_HALF_WIDTH/2){
 	 	    	 state = Spaceship.SPACESHIP_STATE_FLYING;
 	 	    	 velocity.set(SPACESHIP_FLYING_VELOCITY, SPACESHIP_FLYING); 
 			 } else {
-				 position.add(velocity.x * deltaTime, velocity.y * deltaTime);
+				 position.add(velocity.x * deltaTime, 0);
 			 }
  	     }
 		 

@@ -54,5 +54,10 @@ public class Astroid extends DynamicGameObject implements IDynamicObject{
 		return true;
 	}
 
+	@Override
+	public void reset() {
+		destroyed = false;
+	}
+
 	
 }
