@@ -1,10 +1,5 @@
 package com.tinhat.starshiprunner;
 
-import java.util.ArrayList;
-
- 
-
-import android.util.Log;
 
 import com.tinhat.android.DynamicGameObject;
 
@@ -25,15 +20,25 @@ public class Spaceship extends DynamicGameObject {
 	
 	int state;
 	float stateTime = 0; 
-	Ballistic ballistic;
+	
 	
 	public Weapon weapon;
-	public ArrayList<Ballistic> ballistics;
+	
 	
 	public Spaceship(float x, float y) { 
 		super(x, y, SPACESHIP_WIDTH, SPACESHIP_HEIGHT);
-		weapon = new Weapon();
-		ballistics = new ArrayList<Ballistic>();
+		 
+		switch(Settings.weapon){
+			case 0:
+				weapon = new SuperLazerGun(this);
+				break;
+			case 1:
+				weapon = new SuperLazerGun(this);
+				break;
+		}
+			
+		 
+		
 		state = SPACESHIP_STATE_SPAWNING;  
 		velocity.set(SPACESHIP_SPAWNING_VELOCITY, SPACESHIP_FLYING); 
 		
@@ -59,8 +64,6 @@ public class Spaceship extends DynamicGameObject {
 		 }
 		 
 		 if(state == SPACESHIP_STATE_SPAWNING || state == SPACESHIP_STATE_FLYING) {
-			 
-	
 			 if(position.y < 0.5f){
 				 position.set(position.x, 0.5f);
 			 } else if(position.y > World.WORLD_HEIGHT - 0.5f) {
@@ -69,14 +72,7 @@ public class Spaceship extends DynamicGameObject {
 			 bounds.lowerLeft.set(position);
 		 }
 	     
-		 
-	     for(int i = 0; i < ballistics.size(); i++){
-	    	 ballistic = ballistics.get(i);
-	    	 ballistic.update(deltaTime);
-	    	 
-	     }
-		 
-			 
+	     weapon.update(deltaTime); 
 	     stateTime += deltaTime;  
 	   
 	 }
@@ -88,10 +84,6 @@ public class Spaceship extends DynamicGameObject {
         
 	 }
 	 
-	 public void fire() {
-		 Ballistic ballistic = new Ballistic(this.position.x+Spaceship.SPACESHIP_HALF_WIDTH, this.position.y-.25f, 0.5f, .025f);
- 		 ballistic.velocity.set(this.velocity.x + 20, 0);
- 		 ballistics.add(ballistic);
-	 }
+	
 	
 }

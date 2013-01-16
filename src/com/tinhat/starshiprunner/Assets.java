@@ -22,6 +22,10 @@ public class Assets {
     public static TextureRegion arrow;
     public static TextureRegion highscoresRegion;
     public static TextureRegion lazer;
+    public static TextureRegion upgradeCategory;
+    public static TextureRegion upgradeSlot;
+
+    
     
 	public static TextureRegion[] stars;
 	public static TextureRegion[] astroids;
@@ -34,6 +38,8 @@ public class Assets {
 	
 	public static Font whiteFont;
 	public static Font goldFont;
+	public static Font greenNumberFont;
+	public static Font redNumberFont;
 	
 	public static void load(GLGame game) {
 		
@@ -50,6 +56,8 @@ public class Assets {
 		explosion = new TextureRegion(sprites, 0, 192, 62, 32);
 		arrow = new TextureRegion(sprites,0,160,32,32);
 		lazer = new TextureRegion(sprites,2,226,16,8);
+		upgradeSlot = new TextureRegion(sprites,0,471,380,41);
+		upgradeCategory = new TextureRegion(sprites,0,444,380,21);
 		
 		stars = new TextureRegion[]{
 				new TextureRegion(sprites, 0, 64, 16, 16),
@@ -111,8 +119,12 @@ public class Assets {
 				new TextureRegion(sprites, 160, 224, 27, 23)
 				);
 		
-		whiteFont = new Font(sprites, 320, 64, 16, 11, 23);
-		goldFont = new Font(sprites, 320, 256, 16, 11, 23);
+		whiteFont = new Font(sprites, -1, 256, 17, 11, 18, ' ', 96);
+		goldFont = new Font(sprites, 223, 256, 17, 11, 18, ' ', 96);
+		
+		greenNumberFont = new Font(sprites, 2, 387, 16, 11, 18, '*', 16);
+		redNumberFont = new Font(sprites, 226, 387, 16, 11, 18, '*', 16);
+		
 	}
 	
 	 public static void reload() {

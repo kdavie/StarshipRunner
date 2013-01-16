@@ -130,7 +130,7 @@ public class WorldRenderer {
  
          viewport = cam.position.x + cam.frustumWidth/2;
          
-         ballisticIterator = world.spaceship.ballistics.iterator();
+         ballisticIterator = world.spaceship.weapon.ballistics.iterator();
          
          while(ballisticIterator.hasNext()){
         	 ballistic = ballisticIterator.next();

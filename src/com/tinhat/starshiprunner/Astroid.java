@@ -51,7 +51,7 @@ public class Astroid extends DynamicGameObject implements IDynamicObject{
 
 	@Override
 	public boolean isCollidable() {
-		return true;
+		return false;
 	}
 
 	@Override

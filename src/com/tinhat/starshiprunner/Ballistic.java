@@ -2,8 +2,10 @@ package com.tinhat.starshiprunner;
 
 import com.tinhat.android.DynamicGameObject;
 
-public class Ballistic extends DynamicGameObject {
+public abstract class Ballistic extends DynamicGameObject {
 
+	public int yDirection;
+	
 	public Ballistic(float x, float y, float width, float height) {
 		super(x, y, width, height);
 		bounds.lowerLeft.set(position);
@@ -11,9 +13,5 @@ public class Ballistic extends DynamicGameObject {
 
 	float stateTime;
 	
-	public void update(float deltaTime) {
-        stateTime += deltaTime;       
-		position.add(velocity.x * deltaTime, velocity.y * deltaTime);
-		bounds.lowerLeft.set(position);
-    }
+	public abstract void update(float deltaTime);
 }

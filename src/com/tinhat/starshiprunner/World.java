@@ -114,8 +114,8 @@ public class World {
 		            }
 		        } 
 		        
-		        for(x = 0; x < spaceship.ballistics.size();x++){
-		        	ballistic = spaceship.ballistics.get(x);
+		        for(x = 0; x < spaceship.weapon.ballistics.size();x++){
+		        	ballistic = spaceship.weapon.ballistics.get(x);
 		        	if (ballistic.position.x + 8 >= astroid.position.x - Astroid.HALF_WIDTH ) {
 			            if (CollisionTester.rectangles(ballistic.bounds, astroid.bounds)) {
 			            	astroid.state = Astroid.STATE_EXPLODING;

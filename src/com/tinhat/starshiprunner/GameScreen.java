@@ -104,7 +104,7 @@ public class GameScreen extends GLScreen {
 //	        
 	        if(event.type == TouchEvent.TOUCH_UP) { 
 				 if(world.spaceship.state == Spaceship.SPACESHIP_STATE_FLYING){
-					 world.spaceship.fire();
+					 world.spaceship.weapon.fire();
 				 }
 			}
 	        
@@ -126,8 +126,9 @@ public class GameScreen extends GLScreen {
 	        state = GAME_OVER;	        
 	        if(lastScore >= Settings.highscores[4]){
 	        	Settings.addScore(lastScore);
-		        Settings.save(game.getFileIO());
 	        }
+	        Settings.addCoins((int)world.collectedCoins);
+	        Settings.save(game.getFileIO());
 	        
 	    }
 	    

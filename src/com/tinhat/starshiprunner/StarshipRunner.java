@@ -3,6 +3,7 @@ package com.tinhat.starshiprunner;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+  
 import com.tinhat.android.GLGame;
 import com.tinhat.framework.Screen;
 
@@ -12,6 +13,10 @@ import com.tinhat.framework.Screen;
 public class StarshipRunner extends GLGame {
 	boolean firstTimeCreate = true;
 	
+	public StarshipRunner(){
+		
+	
+	}
 	@Override  
 	public Screen getStartScreen(){
 	 
@@ -36,4 +41,6 @@ public class StarshipRunner extends GLGame {
 		super.onPause();
 	 
 	}
+	
+	 
 }

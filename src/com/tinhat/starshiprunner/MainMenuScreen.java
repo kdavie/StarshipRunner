@@ -4,7 +4,12 @@ import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import android.app.Activity;
+import android.view.MotionEvent;
+import android.view.GestureDetector.OnGestureListener;
+
 import com.tinhat.android.Camera2D;
+import com.tinhat.android.GLGame;
 import com.tinhat.android.GLScreen;
 import com.tinhat.android.SpriteBatcher;
 import com.tinhat.android.math.CollisionTester;
@@ -14,13 +19,14 @@ import com.tinhat.framework.Game;
 import com.tinhat.framework.Input.TouchEvent;
  
 
-public class MainMenuScreen extends GLScreen {
+public class MainMenuScreen extends GLScreen  {
 	Camera2D guiCam;
     SpriteBatcher batcher;
 	Rectangle playBounds;
 	Rectangle highscoresBounds;
     Rectangle helpBounds;
-    Rectangle quitBounds;
+    Rectangle upgradesBounds;
+    Rectangle achievementsBounds;
     Vector2 touchPoint;
     
 	public MainMenuScreen(Game game) {
@@ -28,8 +34,11 @@ public class MainMenuScreen extends GLScreen {
 		guiCam = new Camera2D(glGraphics, 480, 320);
         batcher = new SpriteBatcher(glGraphics, 100);
         touchPoint = new Vector2();  
-		playBounds = new Rectangle(170,161,59,19);
-		highscoresBounds = new Rectangle(170,128,165,36);
+		playBounds = new Rectangle(170,161,59,36);
+		highscoresBounds = new Rectangle(170,128,165,36); 
+		upgradesBounds = new Rectangle(170,97,137,36);
+		achievementsBounds = new Rectangle(170,64,192,36);
+		
 	}
 
 	@Override
@@ -52,6 +61,13 @@ public class MainMenuScreen extends GLScreen {
         gl.glEnable(GL10.GL_TEXTURE_2D);        
         batcher.beginBatch(Assets.mainMenu);
         batcher.drawSprite(240,160, 480, 320, Assets.mainMenuRegion);
+        
+        batcher.endBatch();
+        
+        batcher.beginBatch(Assets.sprites);
+        Assets.whiteFont.drawText(batcher, "HMMM, WHAT IS GOING ON? SHOULD WORK RIGHT NOW", 30, 30);
+        Assets.greenNumberFont.drawText(batcher, "1,000", 30, 10);
+        
         batcher.endBatch();
 	}
 
@@ -80,9 +96,18 @@ public class MainMenuScreen extends GLScreen {
                 	game.setScreen(new HighscoresScreen(game));
                     return;
                 }
-
+                if(CollisionTester.pointInRectangle(upgradesBounds, touchPoint)) {
+                	game.setScreen(new UpgradesScreen(game));
+                    return;
+                }
+                if(CollisionTester.pointInRectangle(achievementsBounds, touchPoint)) {
+                	game.setScreen(new AchievementsScreen(game));
+                    return;
+                }
             }
         }
 		
 	}
+	
+	
 }
