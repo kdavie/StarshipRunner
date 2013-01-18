@@ -1,5 +1,6 @@
 package com.tinhat.starshiprunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -7,6 +8,7 @@ import javax.microedition.khronos.opengles.GL10;
 import com.tinhat.android.Camera2D;
 import com.tinhat.android.GLScreen;
 import com.tinhat.android.SpriteBatcher;
+import com.tinhat.android.TextureRegion;
 import com.tinhat.android.math.CollisionTester;
 import com.tinhat.android.math.Rectangle;
 import com.tinhat.android.math.Vector2;
@@ -18,13 +20,22 @@ public class AchievementsScreen extends GLScreen {
     SpriteBatcher batcher;
     Rectangle backBounds;
     Vector2 touchPoint;
+    ParticleEngine particleEngine;
     
 	public AchievementsScreen(Game game) {
 		super(game);
 		guiCam = new Camera2D(glGraphics, 480, 320);
         backBounds = new Rectangle(0, 0, 64, 64);
         touchPoint = new Vector2();
-        batcher = new SpriteBatcher(glGraphics, 100);
+        batcher = new SpriteBatcher(glGraphics, 400);
+        
+        ArrayList<TextureRegion> regions = new ArrayList<TextureRegion>();
+        regions.add(Assets.exhaustParticle1);
+        regions.add(Assets.exhaustParticle2);
+        
+        Vector2 position = new Vector2(240, 0);
+        particleEngine = new ParticleEngine(regions, position);
+        
 	}
 	
     @Override
@@ -44,6 +55,8 @@ public class AchievementsScreen extends GLScreen {
                 }
             }
         }
+        
+        particleEngine.update(deltaTime);
     }
 	
     @Override
@@ -54,15 +67,19 @@ public class AchievementsScreen extends GLScreen {
         
         gl.glEnable(GL10.GL_TEXTURE_2D);
         
+        gl.glEnable(GL10.GL_BLEND);
+        gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+        
+        
         batcher.beginBatch(Assets.background);
         batcher.drawSprite(240, 160, 480, 320, Assets.backgroundRegion);
         batcher.endBatch();
         
-        gl.glEnable(GL10.GL_BLEND);
-        gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+        particleEngine.Draw(batcher, gl);
         
         batcher.beginBatch(Assets.sprites);
-
+       
+        
         batcher.drawSprite(32, 32, 32, 32, Assets.arrow);
         batcher.endBatch();
         

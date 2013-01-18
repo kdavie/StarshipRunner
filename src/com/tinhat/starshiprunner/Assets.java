@@ -24,7 +24,9 @@ public class Assets {
     public static TextureRegion lazer;
     public static TextureRegion upgradeCategory;
     public static TextureRegion upgradeSlot;
-
+    public static TextureRegion exhaustParticle1;
+    public static TextureRegion exhaustParticle2;
+    //312/72
     
     
 	public static TextureRegion[] stars;
@@ -58,7 +60,10 @@ public class Assets {
 		lazer = new TextureRegion(sprites,2,226,16,8);
 		upgradeSlot = new TextureRegion(sprites,0,471,380,41);
 		upgradeCategory = new TextureRegion(sprites,0,444,380,21);
-		
+		exhaustParticle1 = new TextureRegion(sprites,312,72,24,24);
+		exhaustParticle2 = new TextureRegion(sprites,336,72,24,24);
+				
+				
 		stars = new TextureRegion[]{
 				new TextureRegion(sprites, 0, 64, 16, 16),
 				new TextureRegion(sprites, 16, 64, 16, 16),
