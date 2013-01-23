@@ -1,5 +1,9 @@
 package com.tinhat.starshiprunner;
 
+import java.util.ArrayList;
+
+import com.tinhat.android.ParticleSystem;
+import com.tinhat.android.TextureRegion;
 import com.tinhat.android.Pool.PoolObjectFactory;
 import com.tinhat.android.math.CollisionTester;
 import com.tinhat.android.math.Vector2;
@@ -34,17 +38,25 @@ public class World {
 	Ballistic ballistic;
 	Astroid astroid;
 	Coin coin;
-	 
+	Vector2 position;
+	
 	public DynamicObjectPool<Astroid> astroids;
 	public DynamicObjectPool<Coin> coins;
 	public DynamicObjectPool<Star> stars;
+	public ParticleSystem particleSystem;
 	
 	public int collectedCoins;
 	
 	public World(WorldListener worldListener){ 
 		this.spaceship = new Spaceship(WORLD_HALF_WIDTH,WORLD_HALF_HEIGHT);
 		this.listener = worldListener;
-		 
+        position = new Vector2(this.spaceship.position.x - 0.4f, this.spaceship.position.y-0.1f);
+        
+        ArrayList<TextureRegion> regions = new ArrayList<TextureRegion>();
+        regions.add(Assets.exhaustParticle1);
+        regions.add(Assets.exhaustParticle2);
+        Vector2 velocity = new Vector2(spaceship.velocity.x,0);
+        particleSystem = new ParticleSystem(Assets.sprites, regions, position, 0.25f, 0.9f, 0.25f, 0.9f, velocity, 25, 20);
 	}
 	
     public void initializeObjectPools(){
@@ -88,7 +100,9 @@ public class World {
 		updateSpaceship(deltaTime, accelY);
 	    updateCoins(deltaTime);
 	    updateAstroids(deltaTime);
-	    
+	    position.set(this.spaceship.position.x - 0.4f, this.spaceship.position.y-0.1f);
+	    particleSystem.updateLocation(position);
+	    particleSystem.update(deltaTime);
 		if(spaceship.state != Spaceship.SPACESHIP_STATE_CRASHING) {
 			checkCollisions();
 		}

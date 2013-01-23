@@ -1,6 +1,7 @@
 package com.tinhat.starshiprunner;
 
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 import javax.microedition.khronos.opengles.GL10;
@@ -9,6 +10,7 @@ import com.tinhat.android.Camera2D;
 import com.tinhat.android.GLGraphics;
 import com.tinhat.android.SpriteBatcher;
 import com.tinhat.android.TextureRegion;
+import com.tinhat.android.math.Vector2;
 
  
 public class WorldRenderer {
@@ -47,6 +49,7 @@ public class WorldRenderer {
         this.batcher = batcher;       
         this.rand = new Random();
         world.initializeObjectPools();
+        
     }
     
     public void render() {
@@ -70,8 +73,18 @@ public class WorldRenderer {
         gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
         
         batcher.beginBatch(Assets.sprites);
-       
         renderStars();
+        batcher.endBatch();
+        
+        batcher.beginBatch(Assets.sprites);
+        world.particleSystem.render(batcher, gl);
+       
+        batcher.endBatch();
+        
+        
+        gl.glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+        batcher.beginBatch(Assets.sprites);
+     
         renderBallistics();
         renderSpaceship();
        

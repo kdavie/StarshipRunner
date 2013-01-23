@@ -11,6 +11,7 @@ public class Assets {
 	public static Texture background;	
 	public static Texture mainMenu;	
 	public static Texture sprites;
+	public static Texture lightning;
 	
 	public static TextureRegion backgroundRegion;
 	public static TextureRegion mainMenuRegion;
@@ -26,8 +27,9 @@ public class Assets {
     public static TextureRegion upgradeSlot;
     public static TextureRegion exhaustParticle1;
     public static TextureRegion exhaustParticle2;
-    //312/72
-    
+    public static TextureRegion exhaustParticle3;
+    public static TextureRegion exhaustParticle4;
+    public static TextureRegion lightning1;
     
 	public static TextureRegion[] stars;
 	public static TextureRegion[] astroids;
@@ -37,6 +39,7 @@ public class Assets {
 	public static Animation crashingAnimation;
 	public static Animation spinningCoinAnimation;
 	public static Animation astroidExplodingAnimation;
+	public static Animation lightningAnimation;
 	
 	public static Font whiteFont;
 	public static Font goldFont;
@@ -50,6 +53,8 @@ public class Assets {
 		background = new Texture(game, "background.png");
 		backgroundRegion = new TextureRegion(background, 0, 0, 480, 320);
 		sprites = new Texture(game, "sprites.png");
+		lightning = new Texture(game, "lightning.png");
+		
 		highscoresRegion = new TextureRegion(sprites,128,95,165,36);
 	    gameOver = new TextureRegion(sprites, 128,64,147,36);
 	    paused = new TextureRegion(sprites, 128,131,105,36);
@@ -62,8 +67,10 @@ public class Assets {
 		upgradeCategory = new TextureRegion(sprites,0,444,380,21);
 		exhaustParticle1 = new TextureRegion(sprites,312,72,24,24);
 		exhaustParticle2 = new TextureRegion(sprites,336,72,24,24);
-				
-				
+		exhaustParticle3 = new TextureRegion(sprites,312,96,24,24);
+		exhaustParticle4 = new TextureRegion(sprites,336,96,24,24);
+		
+		 
 		stars = new TextureRegion[]{
 				new TextureRegion(sprites, 0, 64, 16, 16),
 				new TextureRegion(sprites, 16, 64, 16, 16),
@@ -124,6 +131,21 @@ public class Assets {
 				new TextureRegion(sprites, 160, 224, 27, 23)
 				);
 		
+		lightningAnimation = new Animation(0.1f, 
+				new TextureRegion(lightning, 0, 0, 480, 32),
+				new TextureRegion(lightning, 0, 32, 480, 32), 
+				new TextureRegion(lightning, 0, 64, 480, 32),
+				new TextureRegion(lightning, 0, 96, 480, 32),
+				new TextureRegion(lightning, 0, 128, 480, 32),
+				new TextureRegion(lightning, 0, 160, 480, 32),
+				new TextureRegion(lightning, 0, 192, 480, 32),
+				new TextureRegion(lightning, 0, 224, 480, 32),
+				new TextureRegion(lightning, 0, 256, 480, 32),
+				new TextureRegion(lightning, 0, 288, 480, 32)
+				);
+		
+		lightning1 = new TextureRegion(lightning, 0, 0, 480, 32);
+
 		whiteFont = new Font(sprites, -1, 256, 17, 11, 18, ' ', 96);
 		goldFont = new Font(sprites, 223, 256, 17, 11, 18, ' ', 96);
 		

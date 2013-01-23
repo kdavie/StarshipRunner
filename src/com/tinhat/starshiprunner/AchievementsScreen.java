@@ -7,6 +7,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import com.tinhat.android.Camera2D;
 import com.tinhat.android.GLScreen;
+import com.tinhat.android.ParticleSystem;
 import com.tinhat.android.SpriteBatcher;
 import com.tinhat.android.TextureRegion;
 import com.tinhat.android.math.CollisionTester;
@@ -20,8 +21,9 @@ public class AchievementsScreen extends GLScreen {
     SpriteBatcher batcher;
     Rectangle backBounds;
     Vector2 touchPoint;
-    ParticleEngine particleEngine;
-    
+    ParticleSystem particleSystem;
+    Vector2 position;
+   
 	public AchievementsScreen(Game game) {
 		super(game);
 		guiCam = new Camera2D(glGraphics, 480, 320);
@@ -30,11 +32,26 @@ public class AchievementsScreen extends GLScreen {
         batcher = new SpriteBatcher(glGraphics, 400);
         
         ArrayList<TextureRegion> regions = new ArrayList<TextureRegion>();
+        
+//        regions.add(new TextureRegion(Assets.lightning, 0, 0, 120, 32));
+//        regions.add(new TextureRegion(Assets.lightning, 0, 32, 120, 32));
+//        regions.add(new TextureRegion(Assets.lightning, 0, 64, 120, 32));
+//        regions.add(new TextureRegion(Assets.lightning, 0, 96, 120, 32));
+//        regions.add(new TextureRegion(Assets.lightning, 0, 128, 120, 32));
+//        regions.add(new TextureRegion(Assets.lightning, 0, 160, 120, 32));
+//        regions.add(new TextureRegion(Assets.lightning, 0, 192, 120, 32));
+//        regions.add(new TextureRegion(Assets.lightning, 0, 224, 120, 32));
+//        regions.add(new TextureRegion(Assets.lightning, 0, 256, 120, 32));
+//        regions.add(new TextureRegion(Assets.lightning, 0, 288, 120, 32));
+        
         regions.add(Assets.exhaustParticle1);
         regions.add(Assets.exhaustParticle2);
+       
         
-        Vector2 position = new Vector2(240, 0);
-        particleEngine = new ParticleEngine(regions, position);
+        position = new Vector2(240, 2);
+        //particleEngine = new ParticleEngine(regions, position);
+        Vector2 velocity = new Vector2(3,15);
+        particleSystem = new ParticleSystem(Assets.sprites, regions, position, 12, 24, 12, 24, velocity, 75, 40);
         
 	}
 	
@@ -56,7 +73,8 @@ public class AchievementsScreen extends GLScreen {
             }
         }
         
-        particleEngine.update(deltaTime);
+        particleSystem.update(deltaTime);
+        //particleEngine.update(deltaTime, position);
     }
 	
     @Override
@@ -75,7 +93,16 @@ public class AchievementsScreen extends GLScreen {
         batcher.drawSprite(240, 160, 480, 320, Assets.backgroundRegion);
         batcher.endBatch();
         
-        particleEngine.Draw(batcher, gl);
+         
+        //particleEngine.Draw(batcher, gl);
+        particleSystem.render(batcher, gl);
+        
+//         batcher.beginBatch(Assets.lightning);
+//        
+//        keyframe = Assets.lightningAnimation.getKeyFrame(stateTime, Animation.ANIMATION_LOOPING);
+//        
+//        batcher.drawSprite(240, 160, 480, 32, keyframe);
+        
         
         batcher.beginBatch(Assets.sprites);
        

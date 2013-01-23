@@ -59,7 +59,7 @@ public class Spaceship extends DynamicGameObject {
  	     }
 		 
 		 if(state == SPACESHIP_STATE_FLYING){
-			 velocity.add(.005f, 0);
+			 //velocity.add(.005f, 0);
 			 position.add(velocity.x * deltaTime, velocity.y * deltaTime);
 		 }
 		 
